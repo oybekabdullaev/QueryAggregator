@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30711.63
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueryAggregator", "QueryAggregator\QueryAggregator.csproj", "{842F5564-9369-4EB9-A241-A23B6AFEFC51}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueryAggregator.Tests", "QueryAggregator.Tests\QueryAggregator.Tests.csproj", "{E33418D8-EE3A-450D-BAF4-8420CCD881DC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{842F5564-9369-4EB9-A241-A23B6AFEFC51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{842F5564-9369-4EB9-A241-A23B6AFEFC51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{842F5564-9369-4EB9-A241-A23B6AFEFC51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{842F5564-9369-4EB9-A241-A23B6AFEFC51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E33418D8-EE3A-450D-BAF4-8420CCD881DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E33418D8-EE3A-450D-BAF4-8420CCD881DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E33418D8-EE3A-450D-BAF4-8420CCD881DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E33418D8-EE3A-450D-BAF4-8420CCD881DC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4205C5A9-CF83-4C6A-BAD1-BD0A4BDCF15B}
+	EndGlobalSection
+EndGlobal
