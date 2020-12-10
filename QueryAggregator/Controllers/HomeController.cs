@@ -34,12 +34,5 @@ namespace QueryAggregator.Controllers
 
             return View(queryInDb);
         }
-
-        protected override void Dispose(bool disposing)
-        {
-            //_unitOfWork.Dispose();
-
-            base.Dispose(disposing);
-        }
     }
 }
