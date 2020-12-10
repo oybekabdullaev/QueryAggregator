@@ -10,9 +10,9 @@ namespace QueryAggregator.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public HomeController()
+        public HomeController(IUnitOfWork unitOfWork)
         {
-            _unitOfWork = new UnitOfWork(new QueryAggregatorContext());
+            _unitOfWork = unitOfWork;
         }
 
         public ActionResult Index()
