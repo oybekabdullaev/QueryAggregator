@@ -130,6 +130,9 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Core\Domain\Link.cs" />
     <Compile Include="Core\Domain\Query.cs" />
+    <Compile Include="Core\IUnitOfWork.cs" />
+    <Compile Include="Core\Repositories\IQueryRepository.cs" />
+    <Compile Include="Core\Repositories\IRepository.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -141,6 +144,9 @@
     <Compile Include="Persistence\EntityConfigurations\LinkConfigurations.cs" />
     <Compile Include="Persistence\EntityConfigurations\QueryConfigurations.cs" />
     <Compile Include="Persistence\QueryAggregatorContext.cs" />
+    <Compile Include="Persistence\Repositories\QueryRepository.cs" />
+    <Compile Include="Persistence\Repositories\Repository.cs" />
+    <Compile Include="Persistence\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

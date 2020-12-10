@@ -4,7 +4,7 @@
     ViewBag.Title = "Home Page";
 }
 
-<h1>Results for: hello</h1>
+<h1>Results for: @Model.QueryString</h1>
 
 @foreach (var link in Model.Links)
 {
