@@ -1,0 +1,21 @@
+﻿@model QueryAggregator.Core.Domain.Query
+
+@{
+    ViewBag.Title = "Links";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Links</h2>
+
+@foreach (var links in Model.Links)
+{
+    <div>
+        <h4>
+            <a href="@links.Url" target="_blank">@links.Title</a>
+        </h4>
+
+        <p>@links.Description</p>
+        
+        <hr/>
+    </div>
+}

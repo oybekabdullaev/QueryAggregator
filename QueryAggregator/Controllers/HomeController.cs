@@ -3,6 +3,8 @@ using QueryAggregator.Persistence;
 using System.Data.Entity;
 using System.Linq;
 using QueryAggregator.Core;
+using QueryAggregator.Core.Domain;
+using QueryAggregator.ViewModels;
 
 namespace QueryAggregator.Controllers
 {
@@ -17,14 +19,25 @@ namespace QueryAggregator.Controllers
 
         public ActionResult Index()
         {
-            var query = _unitOfWork.Queries.GetQueryByQueryStringWithLinks("hello");
+            return View(new QueryViewModel());
+        }
 
-            return View(query);
+        public ActionResult Links(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return HttpNotFound("Please provide a query.");
+            
+            var queryInDb = _unitOfWork.Queries.GetQueryByQueryStringWithLinks(query);
+
+            if (queryInDb == null)
+                return HttpNotFound("No such query in the database.");
+
+            return View(queryInDb);
         }
 
         protected override void Dispose(bool disposing)
         {
-            _unitOfWork.Dispose();
+            //_unitOfWork.Dispose();
 
             base.Dispose(disposing);
         }
