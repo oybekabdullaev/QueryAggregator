@@ -1,28 +1,67 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QueryAggregator;
-using QueryAggregator.Controllers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using QueryAggregator.Controllers;
 using System.Web.Mvc;
+using Moq;
+using NUnit.Framework;
+using QueryAggregator.Core;
+using QueryAggregator.Core.Domain;
 
 namespace QueryAggregator.Tests.Controllers
 {
-    [TestClass]
+    [TestFixture]
     public class HomeControllerTest
     {
-        //[TestMethod]
-        //public void Index()
-        //{
-        //    // Arrange
-        //    HomeController controller = new HomeController();
+        private readonly string _query = "queryString";
+        private Mock<IUnitOfWork> _unitOfWork;
+        private HomeController _controller;
 
-        //    // Act
-        //    ViewResult result = controller.Index() as ViewResult;
+        [SetUp]
+        public void SetUp()
+        {
+            _unitOfWork = new Mock<IUnitOfWork>();
+            _controller = new HomeController(_unitOfWork.Object);
+        }
 
-        //    // Assert
-        //    Assert.IsNotNull(result);
-        //}
+        [Test]
+        public void Index_WhenCalled_ReturnsViewResult()
+        {
+            var result = _controller.Index();
+
+            Assert.That(result, Is.TypeOf<ViewResult>());
+        }
+
+        [Test]
+        [TestCase(null)]
+        [TestCase("")]
+        [TestCase(" ")]
+        public void Links_QueryStringIsNullOrWhitespace_ReturnsHttpNotFoundResult(string query)
+        {
+            var result = _controller.Links(query);
+
+            Assert.That(result, Is.TypeOf<HttpNotFoundResult>());
+        }
+
+        [Test]
+        public void Links_QueryDoesNotExistInDatabase_ReturnsHttpNotFound()
+        {
+            _unitOfWork
+                .Setup(uof => uof.Queries.GetQueryByQueryStringWithLinks(_query))
+                .Returns(() => null);
+            
+            var result = _controller.Links(_query);
+
+            Assert.That(result, Is.TypeOf<HttpNotFoundResult>());
+        }
+
+        [Test]
+        public void Links_QueryExistsInDatabase_ReturnsHttpNotFound()
+        {
+            _unitOfWork
+                .Setup(uof => uof.Queries.GetQueryByQueryStringWithLinks(_query))
+                .Returns(new Query());
+
+            var result = _controller.Links(_query);
+
+            Assert.That(result, Is.TypeOf<ViewResult>());
+        }
     }
 }
