@@ -53,14 +53,14 @@ namespace QueryAggregator.Tests.Controllers
         }
 
         [Test]
-        public void Links_QueryExistsInDatabase_ReturnsHttpNotFound()
+        public void Links_QueryExistsInDatabase_ReturnsViewResult()
         {
             _unitOfWork
                 .Setup(uof => uof.Queries.GetQueryByQueryStringWithLinks(_query))
                 .Returns(new Query());
 
             var result = _controller.Links(_query);
-
+             
             Assert.That(result, Is.TypeOf<ViewResult>());
         }
     }
