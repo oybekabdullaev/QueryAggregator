@@ -158,6 +158,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Apis\ApiHelper.cs" />
+    <Compile Include="Apis\BingApi.cs" />
+    <Compile Include="Apis\Dtos\BingDtos.cs" />
     <Compile Include="Apis\Dtos\GoogleDtos.cs" />
     <Compile Include="Apis\GoogleApi.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />

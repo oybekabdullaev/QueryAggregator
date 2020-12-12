@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web;
 using AutoMapper;
 using QueryAggregator.Apis.Dtos;
 using QueryAggregator.Core.Domain;
 
 namespace QueryAggregator.Apis
 {
-    public class GoogleApi
+    public class BingApi
     {
         private readonly HttpClient _httpClient;
 
-        public GoogleApi(HttpClient httpClient)
+        public BingApi(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
@@ -31,45 +29,53 @@ namespace QueryAggregator.Apis
 
         private string GetUrl(string query)
         {
-            var key = ConfigurationManager.AppSettings["GoogleKey"];
-            var searchEngineId = ConfigurationManager.AppSettings["GoogleSearchEngineId"];
-
-            if (key == null || searchEngineId == null)
-                throw new Exception("Please, provide Google key and search engine id.");
-
-            return $"https://www.googleapis.com/customsearch/v1?key={key}&cx={searchEngineId}&q={query}&num=10";
+            return $"https://api.bing.microsoft.com/v7.0/search?q={query}&responseFilter=webpages&count=10";
         }
 
-        private async Task<GoogleResponse> LoadAsync(string url)
+        private async Task<BingResponse> LoadAsync(string url)
         {
-            _httpClient.DefaultRequestHeaders.Accept.Clear();
+            ConfigureHttpClientHeaders();
 
             using (var responseMessage = await _httpClient.GetAsync(url))
             {
                 if (!responseMessage.IsSuccessStatusCode)
                     throw new Exception(responseMessage.ReasonPhrase);
 
-                return await responseMessage.Content.ReadAsAsync<GoogleResponse>();
+                return await responseMessage.Content.ReadAsAsync<BingResponse>();
             }
         }
 
-        private List<Link> ParseResponse(GoogleResponse response)
+        private void ConfigureHttpClientHeaders()
         {
-            return MapDtoToDomain(response.Items);
+            var key = ConfigurationManager.AppSettings["BingKey"];
+
+            if (key == null)
+                throw new Exception("Please, provide Bing key.");
+
+            _httpClient.DefaultRequestHeaders.Accept.Clear();
+            _httpClient.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", key);
         }
 
-        private List<Link> MapDtoToDomain(List<GoogleLink> response)
+        private List<Link> ParseResponse(BingResponse response)
+        {
+            return MapDtoToDomain(response.WebPages.Value);
+        }
+
+
+        private List<Link> MapDtoToDomain(List<BingLink> response)
         {
             var config = new MapperConfiguration(cfg =>
-                cfg.CreateMap<GoogleLink, Link>()
+                cfg.CreateMap<BingLink, Link>()
                     .ForMember("Url", opt =>
-                        opt.MapFrom(c => c.Link))
+                        opt.MapFrom(c => c.Url))
                     .ForMember("Title", opt =>
-                        opt.MapFrom(c => c.Title))
+                        opt.MapFrom(c => c.Name))
                     .ForMember("Description", opt =>
                         opt.MapFrom(c => c.Snippet)));
 
-            return new Mapper(config).Map<List<Link>>(response);
+            var mapper = new Mapper(config);
+
+            return mapper.Map<List<Link>>(response);
         }
     }
 }

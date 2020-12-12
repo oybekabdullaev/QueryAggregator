@@ -40,7 +40,7 @@ namespace QueryAggregator.Controllers
 
         private async Task<Query> LoadFromApiAsync(string query)
         {
-            var api = new GoogleApi(ApiHelper.HttpClient);
+            var api = new BingApi(ApiHelper.HttpClient);
             var links = await api.GetLinksAsync(query);
 
             return new Query
