@@ -2,6 +2,9 @@
 using QueryAggregator.Persistence;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using QueryAggregator.Apis;
 using QueryAggregator.Core;
 using QueryAggregator.Core.Domain;
 using QueryAggregator.ViewModels;
@@ -22,17 +25,29 @@ namespace QueryAggregator.Controllers
             return View(new QueryViewModel());
         }
 
-        public ActionResult Links(string query)
+        public async Task<ActionResult> Links(string query)
         {
             if (string.IsNullOrWhiteSpace(query))
                 return HttpNotFound("Please provide a query.");
             
-            var queryInDb = _unitOfWork.Queries.GetQueryByQueryStringWithLinks(query);
+            var loadedQuery = _unitOfWork.Queries.GetQueryByQueryStringWithLinks(query);
 
-            if (queryInDb == null)
-                return HttpNotFound("No such query in the database.");
+            if (loadedQuery == null)
+                loadedQuery = await LoadFromApiAsync(query);
+            
+            return View(loadedQuery);
+        }
 
-            return View(queryInDb);
+        private async Task<Query> LoadFromApiAsync(string query)
+        {
+            var api = new GoogleApi(ApiHelper.HttpClient);
+            var links = await api.GetLinksAsync(query);
+
+            return new Query
+            {
+                Links = links,
+                QueryString = query
+            };
         }
     }
 }
