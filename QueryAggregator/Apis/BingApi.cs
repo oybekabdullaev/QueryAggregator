@@ -9,7 +9,7 @@ using QueryAggregator.Core.Domain;
 
 namespace QueryAggregator.Apis
 {
-    public class BingApi
+    public class BingApi : IApi
     {
         private readonly HttpClient _httpClient;
 

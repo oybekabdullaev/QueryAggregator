@@ -162,6 +162,7 @@
     <Compile Include="Apis\Dtos\BingDtos.cs" />
     <Compile Include="Apis\Dtos\GoogleDtos.cs" />
     <Compile Include="Apis\GoogleApi.cs" />
+    <Compile Include="Apis\IApi.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />

@@ -11,7 +11,7 @@ using QueryAggregator.Core.Domain;
 
 namespace QueryAggregator.Apis
 {
-    public class GoogleApi
+    public class GoogleApi : IApi
     {
         private readonly HttpClient _httpClient;
 

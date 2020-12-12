@@ -18,7 +18,7 @@ namespace QueryAggregator.Tests.Controllers
         public void SetUp()
         {
             _unitOfWork = new Mock<IUnitOfWork>();
-            _controller = new HomeController(_unitOfWork.Object);
+            _controller = new HomeController(_unitOfWork.Object, null);
         }
 
         [Test]

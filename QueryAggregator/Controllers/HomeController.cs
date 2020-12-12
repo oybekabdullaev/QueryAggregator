@@ -1,8 +1,6 @@
-﻿using System.Web.Mvc;
-using QueryAggregator.Persistence;
-using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using QueryAggregator.Apis;
 using QueryAggregator.Core;
@@ -14,10 +12,12 @@ namespace QueryAggregator.Controllers
     public class HomeController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IList<IApi> _apis;
 
-        public HomeController(IUnitOfWork unitOfWork)
+        public HomeController(IUnitOfWork unitOfWork, IList<IApi> apis)
         {
             _unitOfWork = unitOfWork;
+            _apis = apis;
         }
 
         public ActionResult Index()
@@ -40,8 +40,11 @@ namespace QueryAggregator.Controllers
 
         private async Task<Query> LoadFromApiAsync(string query)
         {
-            var api = new BingApi(ApiHelper.HttpClient);
-            var links = await api.GetLinksAsync(query);
+            var tasks = _apis.Select(a => a.GetLinksAsync(query)).ToList();
+
+            var finishedTask = await Task.WhenAny(tasks);
+
+            var links = await finishedTask;
 
             return new Query
             {
