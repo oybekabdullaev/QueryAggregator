@@ -5,16 +5,20 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Links</h2>
+<h2>Results for: <strong>@Model.QueryString</strong></h2>
+<hr/>
 
-@foreach (var links in Model.Links)
+@foreach (var link in Model.Links)
 {
     <div>
         <h4>
-            <a href="@links.Url" target="_blank">@links.Title</a>
+            <a href="@link.Url" target="_blank">@link.Title</a>
         </h4>
-
-        <p>@links.Description</p>
+        
+        @if (link.Description != null)
+        {
+            <p>@link.Description</p>
+        }
         
         <hr/>
     </div>
