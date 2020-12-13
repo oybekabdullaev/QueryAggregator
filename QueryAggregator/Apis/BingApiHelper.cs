@@ -21,47 +21,44 @@ namespace QueryAggregator.Apis
 
         public async Task<List<Link>> GetLinksAsync(string query)
         {
-            var url = GetUrl(query);
+            var request = GetRequestMessage(query);
 
-            var response = await LoadAsync(url);
+            var response = await LoadAsync(request);
 
             return ParseResponse(response);
         }
 
-        private string GetUrl(string query)
-        {
-            return $"https://api.bing.microsoft.com/v7.0/search?q={query}&responseFilter=webpages&count=10";
-        }
-
-        private async Task<BingResponse> LoadAsync(string url)
-        {
-            ConfigureHttpClientHeaders();
-
-            using (var responseMessage = await _httpClient.GetAsync(url))
-            {
-                if (responseMessage.IsSuccessStatusCode)
-                    return await responseMessage.Content.ReadAsAsync<BingResponse>();
-                
-                throw new Exception("Bing error: " + responseMessage.ReasonPhrase);
-            }
-        }
-
-        private void ConfigureHttpClientHeaders()
+        private HttpRequestMessage GetRequestMessage(string query)
         {
             var key = ConfigurationManager.AppSettings["BingKey"];
 
             if (string.IsNullOrWhiteSpace(key))
                 throw new Exception("Please, provide Bing key.");
 
-            _httpClient.DefaultRequestHeaders.Accept.Clear();
-            _httpClient.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", key);
+            var url = $"https://api.bing.microsoft.com/v7.0/search?q={query}&responseFilter=webpages&count=10";
+            
+            var request = new HttpRequestMessage(HttpMethod.Get, new Uri(url));
+            
+            request.Headers.Add("Ocp-Apim-Subscription-Key", key);
+
+            return request;
+        }
+
+        private async Task<BingResponse> LoadAsync(HttpRequestMessage request)
+        {
+            using (var responseMessage = await _httpClient.SendAsync(request))
+            {
+                if (responseMessage.IsSuccessStatusCode)
+                    return await responseMessage.Content.ReadAsAsync<BingResponse>();
+
+                throw new Exception("Bing error: " + responseMessage.ReasonPhrase);
+            }
         }
 
         private List<Link> ParseResponse(BingResponse response)
         {
             return MapDtoToDomain(response.WebPages.Value);
         }
-
 
         private List<Link> MapDtoToDomain(List<BingLink> response)
         {

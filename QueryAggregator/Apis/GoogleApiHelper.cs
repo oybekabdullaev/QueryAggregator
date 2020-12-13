@@ -22,14 +22,14 @@ namespace QueryAggregator.Apis
 
         public async Task<List<Link>> GetLinksAsync(string query)
         {
-            var url = GetUrl(query);
+            var request = GetRequestMessage(query);
 
-            var response = await LoadAsync(url);
+            var response = await LoadAsync(request);
 
             return ParseResponse(response);
         }
 
-        private string GetUrl(string query)
+        private HttpRequestMessage GetRequestMessage(string query)
         {
             var key = ConfigurationManager.AppSettings["GoogleKey"];
             var searchEngineId = ConfigurationManager.AppSettings["GoogleSearchEngineId"];
@@ -37,14 +37,16 @@ namespace QueryAggregator.Apis
             if (string.IsNullOrWhiteSpace(key) || string.IsNullOrWhiteSpace(searchEngineId))
                 throw new Exception("Please, provide Google key and search engine id.");
 
-            return $"https://www.googleapis.com/customsearch/v1?key={key}&cx={searchEngineId}&q={query}&num=10";
+            var url = $"https://www.googleapis.com/customsearch/v1?key={key}&cx={searchEngineId}&q={query}&num=10";
+
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+
+            return request;
         }
 
-        private async Task<GoogleResponse> LoadAsync(string url)
+        private async Task<GoogleResponse> LoadAsync(HttpRequestMessage request)
         {
-            _httpClient.DefaultRequestHeaders.Accept.Clear();
-
-            using (var responseMessage = await _httpClient.GetAsync(url))
+            using (var responseMessage = await _httpClient.SendAsync(request))
             {
                 if (responseMessage.IsSuccessStatusCode)
                     return await responseMessage.Content.ReadAsAsync<GoogleResponse>();
