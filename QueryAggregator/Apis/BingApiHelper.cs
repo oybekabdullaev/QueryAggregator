@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using AutoMapper;
 using QueryAggregator.Apis.Dtos;
@@ -38,10 +39,10 @@ namespace QueryAggregator.Apis
 
             using (var responseMessage = await _httpClient.GetAsync(url))
             {
-                if (!responseMessage.IsSuccessStatusCode)
-                    throw new Exception(responseMessage.ReasonPhrase);
-
-                return await responseMessage.Content.ReadAsAsync<BingResponse>();
+                if (responseMessage.IsSuccessStatusCode)
+                    return await responseMessage.Content.ReadAsAsync<BingResponse>();
+                
+                throw new Exception("Bing error: " + responseMessage.ReasonPhrase);
             }
         }
 
@@ -49,7 +50,7 @@ namespace QueryAggregator.Apis
         {
             var key = ConfigurationManager.AppSettings["BingKey"];
 
-            if (key == null)
+            if (string.IsNullOrWhiteSpace(key))
                 throw new Exception("Please, provide Bing key.");
 
             _httpClient.DefaultRequestHeaders.Accept.Clear();

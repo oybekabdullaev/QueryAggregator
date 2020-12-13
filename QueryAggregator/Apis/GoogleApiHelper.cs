@@ -34,7 +34,7 @@ namespace QueryAggregator.Apis
             var key = ConfigurationManager.AppSettings["GoogleKey"];
             var searchEngineId = ConfigurationManager.AppSettings["GoogleSearchEngineId"];
 
-            if (key == null || searchEngineId == null)
+            if (string.IsNullOrWhiteSpace(key) || string.IsNullOrWhiteSpace(searchEngineId))
                 throw new Exception("Please, provide Google key and search engine id.");
 
             return $"https://www.googleapis.com/customsearch/v1?key={key}&cx={searchEngineId}&q={query}&num=10";
@@ -46,10 +46,11 @@ namespace QueryAggregator.Apis
 
             using (var responseMessage = await _httpClient.GetAsync(url))
             {
-                if (!responseMessage.IsSuccessStatusCode)
-                    throw new Exception(responseMessage.ReasonPhrase);
-
-                return await responseMessage.Content.ReadAsAsync<GoogleResponse>();
+                if (responseMessage.IsSuccessStatusCode)
+                    return await responseMessage.Content.ReadAsAsync<GoogleResponse>();
+                
+                var response = await responseMessage.Content.ReadAsAsync<GoogleErrorResponse>();
+                throw new Exception("Google error: " + response.Error.Message);
             }
         }
 

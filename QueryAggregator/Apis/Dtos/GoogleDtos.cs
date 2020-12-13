@@ -16,4 +16,14 @@ namespace QueryAggregator.Apis.Dtos
         public string Title { get; set; }
         public string Snippet { get; set; }
     }
+
+    public class GoogleErrorResponse
+    {
+        public GoogleError Error { get; set; }
+    }
+
+    public class GoogleError
+    {
+        public string Message { get; set; }
+    }
 }
