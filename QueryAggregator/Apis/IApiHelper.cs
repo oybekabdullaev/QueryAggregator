@@ -7,7 +7,7 @@ using QueryAggregator.Core.Domain;
 
 namespace QueryAggregator.Apis
 {
-    public interface IApi
+    public interface IApiHelper
     {
         Task<List<Link>> GetLinksAsync(string query);
     }

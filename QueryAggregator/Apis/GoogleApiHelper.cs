@@ -11,11 +11,11 @@ using QueryAggregator.Core.Domain;
 
 namespace QueryAggregator.Apis
 {
-    public class GoogleApi : IApi
+    public class GoogleApiHelper : IApiHelper
     {
         private readonly HttpClient _httpClient;
 
-        public GoogleApi(HttpClient httpClient)
+        public GoogleApiHelper(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }

@@ -157,13 +157,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Apis\ApiHelper.cs" />
-    <Compile Include="Apis\BingApi.cs" />
+    <Compile Include="Util\HttpClientService.cs" />
+    <Compile Include="Apis\BingApiHelper.cs" />
     <Compile Include="Apis\Dtos\BingDtos.cs" />
     <Compile Include="Apis\Dtos\GoogleDtos.cs" />
-    <Compile Include="Apis\GoogleApi.cs" />
-    <Compile Include="Apis\IApi.cs" />
-    <Compile Include="Apis\YandexApi.cs" />
+    <Compile Include="Apis\GoogleApiHelper.cs" />
+    <Compile Include="Apis\IApiHelper.cs" />
+    <Compile Include="Apis\YandexApiHelper.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />

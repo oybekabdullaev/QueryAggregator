@@ -11,11 +11,11 @@ using QueryAggregator.Core.Domain;
 
 namespace QueryAggregator.Apis
 {
-    public class YandexApi : IApi
+    public class YandexApiHelper : IApiHelper
     {
         private readonly HttpClient _httpClient;
 
-        public YandexApi(HttpClient httpClient)
+        public YandexApiHelper(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }

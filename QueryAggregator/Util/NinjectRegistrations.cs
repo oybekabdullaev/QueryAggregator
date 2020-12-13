@@ -15,13 +15,13 @@ namespace QueryAggregator.Util
     {
         public override void Load()
         {
-            var httpClient = ApiHelper.HttpClient;
+            var httpClient = HttpClientService.Instance;
 
-            Bind<IApi>().To<GoogleApi>()
+            Bind<IApiHelper>().To<GoogleApiHelper>()
                 .WithConstructorArgument("httpClient", httpClient);
-            Bind<IApi>().To<BingApi>()
+            Bind<IApiHelper>().To<BingApiHelper>()
                 .WithConstructorArgument("httpClient", httpClient);
-            //Bind<IApi>().To<YandexApi>()
+            //Bind<IApi>().To<YandexApiHelper>()
             //    .WithConstructorArgument("httpClient", httpClient);
 
             Bind<IUnitOfWork>().To<UnitOfWork>()

@@ -12,9 +12,9 @@ namespace QueryAggregator.Controllers
     public class HomeController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IList<IApi> _apis;
+        private readonly IList<IApiHelper> _apis;
 
-        public HomeController(IUnitOfWork unitOfWork, IList<IApi> apis)
+        public HomeController(IUnitOfWork unitOfWork, IList<IApiHelper> apis)
         {
             _unitOfWork = unitOfWork;
             _apis = apis;
