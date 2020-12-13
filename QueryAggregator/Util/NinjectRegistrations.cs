@@ -21,6 +21,8 @@ namespace QueryAggregator.Util
                 .WithConstructorArgument("httpClient", httpClient);
             Bind<IApi>().To<BingApi>()
                 .WithConstructorArgument("httpClient", httpClient);
+            //Bind<IApi>().To<YandexApi>()
+            //    .WithConstructorArgument("httpClient", httpClient);
 
             Bind<IUnitOfWork>().To<UnitOfWork>()
                 .WithConstructorArgument("context", new QueryAggregatorContext());
