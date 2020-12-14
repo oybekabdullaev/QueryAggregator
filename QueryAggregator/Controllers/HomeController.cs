@@ -37,8 +37,13 @@ namespace QueryAggregator.Controllers
             var loadedQuery = _unitOfWork.Queries.GetQueryByQueryStringWithLinks(query);
 
             if (loadedQuery == null)
+            {
                 loadedQuery = await LoadFromApiAsync(query);
-            
+                
+                _unitOfWork.Queries.Add(loadedQuery);
+                _unitOfWork.Complete();
+            }
+
             return View(loadedQuery);
         }
 
