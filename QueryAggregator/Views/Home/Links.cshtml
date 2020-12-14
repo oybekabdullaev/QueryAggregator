@@ -10,16 +10,11 @@
 
 @foreach (var link in Model.Links)
 {
+    var description = link.Description ?? "No Description";
+
     <div>
-        <h4>
-            <a href="@link.Url" target="_blank">@link.Title</a>
-        </h4>
-        
-        @if (link.Description != null)
-        {
-            <p>@link.Description</p>
-        }
-        
+        <h4><a href="@link.Url" target="_blank">@link.Title</a></h4>
+        <p>@description</p>
         <hr/>
     </div>
 }
