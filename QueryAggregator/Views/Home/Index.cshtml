@@ -11,7 +11,13 @@
     <div class="form-group">
         @Html.LabelFor(q => q.Query)
         @Html.TextBoxFor(q => q.Query, new { @class = "form-control" })
+        @Html.ValidationMessageFor(q => q.Query)
     </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval");
 }

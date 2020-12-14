@@ -10,6 +10,7 @@ namespace QueryAggregator.ViewModels
     public class QueryViewModel
     {
         [Display(Name = "Query")]
+        [Required]
         public string Query { get; set; }
     }
 }

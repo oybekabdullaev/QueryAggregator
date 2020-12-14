@@ -25,10 +25,14 @@ namespace QueryAggregator.Controllers
             return View(new QueryViewModel());
         }
 
-        public async Task<ActionResult> Links(string query)
+        public async Task<ActionResult> Links(QueryViewModel queryViewModel)
         {
-            if (string.IsNullOrWhiteSpace(query))
-                return HttpNotFound("Please provide a query.");
+            if (!ModelState.IsValid)
+            {
+                return View("Index", queryViewModel);
+            }
+
+            var query = queryViewModel.Query;
             
             var loadedQuery = _unitOfWork.Queries.GetQueryByQueryStringWithLinks(query);
 

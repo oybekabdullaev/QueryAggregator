@@ -29,39 +29,39 @@ namespace QueryAggregator.Tests.Controllers
             Assert.That(result, Is.TypeOf<ViewResult>());
         }
 
-        [Test]
-        [TestCase(null)]
-        [TestCase("")]
-        [TestCase(" ")]
-        public void Links_QueryStringIsNullOrWhitespace_ReturnsHttpNotFoundResult(string query)
-        {
-            var result = _controller.Links(query);
+        //[Test]
+        //[TestCase(null)]
+        //[TestCase("")]
+        //[TestCase(" ")]
+        //public void Links_QueryStringIsNullOrWhitespace_ReturnsHttpNotFoundResult(string query)
+        //{
+        //    var result = _controller.Links(query);
 
-            Assert.That(result, Is.TypeOf<HttpNotFoundResult>());
-        }
+        //    Assert.That(result, Is.TypeOf<HttpNotFoundResult>());
+        //}
 
-        [Test]
-        public void Links_QueryDoesNotExistInDatabase_ReturnsHttpNotFound()
-        {
-            _unitOfWork
-                .Setup(uof => uof.Queries.GetQueryByQueryStringWithLinks(_query))
-                .Returns(() => null);
+        //[Test]
+        //public void Links_QueryDoesNotExistInDatabase_ReturnsHttpNotFound()
+        //{
+        //    _unitOfWork
+        //        .Setup(uof => uof.Queries.GetQueryByQueryStringWithLinks(_query))
+        //        .Returns(() => null);
             
-            var result = _controller.Links(_query);
+        //    var result = _controller.Links(_query);
 
-            Assert.That(result, Is.TypeOf<HttpNotFoundResult>());
-        }
+        //    Assert.That(result, Is.TypeOf<HttpNotFoundResult>());
+        //}
 
-        [Test]
-        public void Links_QueryExistsInDatabase_ReturnsViewResult()
-        {
-            _unitOfWork
-                .Setup(uof => uof.Queries.GetQueryByQueryStringWithLinks(_query))
-                .Returns(new Query());
+        //[Test]
+        //public void Links_QueryExistsInDatabase_ReturnsViewResult()
+        //{
+        //    _unitOfWork
+        //        .Setup(uof => uof.Queries.GetQueryByQueryStringWithLinks(_query))
+        //        .Returns(new Query());
 
-            var result = _controller.Links(_query);
+        //    var result = _controller.Links(_query);
              
-            Assert.That(result, Is.TypeOf<ViewResult>());
-        }
+        //    Assert.That(result, Is.TypeOf<ViewResult>());
+        //}
     }
 }
