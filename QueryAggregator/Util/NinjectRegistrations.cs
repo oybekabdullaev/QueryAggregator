@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
 using Ninject.Activation;
@@ -16,16 +17,14 @@ namespace QueryAggregator.Util
     {
         public override void Load()
         {
-            var httpClient = HttpClientService.Instance;
+            Bind<HttpClient>().ToSelf().InSingletonScope();
 
-            Bind<IApiHelper>().To<GoogleApiHelper>()
-                .WithConstructorArgument("httpClient", httpClient);
-            Bind<IApiHelper>().To<BingApiHelper>()
-                .WithConstructorArgument("httpClient", httpClient);
-            //Bind<IApiHelper>().To<YandexApiHelper>()
-            //    .WithConstructorArgument("httpClient", httpClient);
+            Bind<IApiHelper>().To<GoogleApiHelper>();
+            Bind<IApiHelper>().To<BingApiHelper>();
+            //Bind<IApiHelper>().To<YandexApiHelper>();
 
             Bind<IUnitOfWork>().To<UnitOfWork>()
+                .InSingletonScope()
                 .WithConstructorArgument("context", new QueryAggregatorContext());
 
             Unbind<ModelValidatorProvider>();

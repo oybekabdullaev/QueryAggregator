@@ -157,7 +157,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Util\HttpClientService.cs" />
     <Compile Include="Apis\BingApiHelper.cs" />
     <Compile Include="Apis\Dtos\BingDtos.cs" />
     <Compile Include="Apis\Dtos\GoogleDtos.cs" />
